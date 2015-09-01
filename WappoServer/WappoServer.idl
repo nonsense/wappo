@@ -1,0 +1,96 @@
+// WappoServer.idl : IDL source for WappoServer.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (WappoServer.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(BFC5D6BC-B8E1-4808-9158-6ECD345C356D),
+		dual,
+		helpstring("IWGame Interface"),
+		pointer_default(unique)
+	]
+	interface IWGame : IDispatch
+	{
+		[id(1), helpstring("method GameStatus")] HRESULT GameStatus([out, retval] int* ReturnVal);
+		[id(2), helpstring("method MovePlayer")] HRESULT MovePlayer([in] int Direction, [out, retval] int* ReturnVal);
+		[id(3), helpstring("method MoveKillers")] HRESULT MoveKillers();
+		[propget, id(4), helpstring("method get_Board")] HRESULT Board([in] int i_Line, [in] int i_Column, [out, retval] int* ReturnVal);
+		[propget, id(5), helpstring("method get_nLevels")] HRESULT nLevels([out, retval] int* nLevels);
+		[id(6), helpstring("method New")] HRESULT New();
+		[id(7), helpstring("method Save")] HRESULT Save([in] BSTR FileUser);
+		[id(8), helpstring("method Open")] HRESULT Open([in] BSTR FileUser);
+		[propget, id(9), helpstring("method get_curLevel")] HRESULT curLevel([out, retval] int* ReturnVal);
+		[id(10), helpstring("method nextLevel")] HRESULT nextLevel();
+		[id(11), helpstring("method resetLevel")] HRESULT resetLevel();
+		[propget, id(12), helpstring("method get_nSolution")] HRESULT nSolution([out, retval] int* ReturnVal);
+		[id(13), helpstring("method solveLevel")] HRESULT solveLevel([out, retval] int * ReturnVal);
+		[propget, id(14), helpstring("method get_Solution")] HRESULT Solution([in] int nIndex, [out, retval] BSTR* ReturnVal);
+		[id(15), helpstring("method get_Wall")] HRESULT get_Wall([in] int nIndex, [out] int* fL, [out] int* fC, [out] int* sL, [out] int* sC);
+		[id(16), helpstring("method loadLevel")] HRESULT loadLevel([in] int nLevel);
+		[propget, id(17), helpstring("method get_lastLevel")] HRESULT lastLevel([out, retval] int* ReturnVal);
+		[propget, id(18),helpstring("method get_nWalls")] HRESULT nWalls([out, retval] int* ReturnVal);
+	};
+	[
+		object,
+		uuid(1B8369B8-07CF-48B6-9E4D-EA56A766652A),
+		dual,
+		helpstring("IWLevels Interface"),
+		pointer_default(unique)
+	]
+	interface IWLevels : IDispatch
+	{
+		[id(1), helpstring("method New")] HRESULT New();
+		[id(2), helpstring("method Open")] HRESULT Open([in] BSTR FileName);
+		[id(3), helpstring("method Save")] HRESULT Save([in] BSTR FileName);
+		[propget, id(4), helpstring("method get_nLevels")] HRESULT nLevels([out, retval] int* ReturnVal);
+		[id(5), helpstring("method newLevel")] HRESULT newLevel();
+		[id(6), helpstring("method saveLevel")] HRESULT saveLevel([out, retval] int* ReturnVal);
+		[id(7), helpstring("method loadLevel")] HRESULT loadLevel([in] int nIndex, [out, retval] int* ReturnVal);
+		[id(8), helpstring("method put_Wall")] HRESULT put_Wall([in] int FL, [in] int FC, [in] int SL, [in] int SC, [out, retval] int* ReturnVal);
+		[id(9), helpstring("method put_Hole")] HRESULT put_Hole([in] int Line, [in] int Column, [out, retval] int* ReturnVal);
+		[id(10), helpstring("method put_Player")] HRESULT put_Player([in] int Line, [in] int Column, [out, retval] int* ReturnVal);
+		[id(11), helpstring("method put_Door")] HRESULT put_Door([in] int Line, [in] int Column, [out, retval] int* ReturnVal);
+		[id(12), helpstring("method put_Killer")] HRESULT put_Killer([in] int Line, [in] int Column, [out, retval] int* ReturnVal);
+		[propget, id(13), helpstring("method get_Board")] HRESULT Board([in] int i_Line, [in] int i_Column, [out, retval] int* ReturnVal);
+		[id(14), helpstring("method clear_Killers")] HRESULT clear_Killers();
+		[id(15), helpstring("method clear_Holes")] HRESULT clear_Holes();
+		[id(16), helpstring("method clear_Walls")] HRESULT clear_Walls();
+		[propget, id(17), helpstring("method get_nWalls")] HRESULT nWalls([out, retval] int* ReturnVal);
+		[id(18), helpstring("method get_Wall")] HRESULT get_Wall([in] int nIndex, [out] int* fL, [out] int* fC, [out] int* sL, [out] int* sC);
+		[propget, id(19), helpstring("method get_nKillers")] HRESULT nKillers([out, retval] int* ReturnVal);
+		[propget, id(20), helpstring("method get_nHoles")] HRESULT nHoles([out, retval] int* ReturnVal);
+		[id(21), helpstring("method get_Hole")] HRESULT get_Hole([in] int nIndex, [out] int* Line, [out] int* Column);
+		[id(22), helpstring("method get_Killer")] HRESULT get_Killer([in] int nIndex, [out] int* Line, [out] int* Column);
+	};
+
+[
+	uuid(202FCBCC-8752-4D5A-A8E2-B1BDCB1C696D),
+	version(1.0),
+	helpstring("WappoServer 1.0 Type Library")
+]
+library WAPPOSERVERLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(8F2004E2-0D1A-4CEE-9271-2E63D4E001B0),
+		helpstring("WGame Class")
+	]
+	coclass WGame
+	{
+		[default] interface IWGame;
+	};
+	[
+		uuid(8CB9A5C1-C9F8-4B4B-B613-4E7864A4BC27),
+		helpstring("WLevels Class")
+	]
+	coclass WLevels
+	{
+		[default] interface IWLevels;
+	};
+};
